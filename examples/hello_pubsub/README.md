@@ -1,4 +1,4 @@
-# Cloud Function examples - hello pubsub
+# Cloud Function examples - hello Pub/Sub
 
 ## Create Pub/Sub topic
 
