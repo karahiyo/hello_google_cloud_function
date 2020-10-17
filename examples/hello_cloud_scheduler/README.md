@@ -26,25 +26,45 @@ gcloud functions deploy hello_cloud_scheduler \
 $ gcloud functions list
 ```
 
+## Test
+
+```
+gcloud functions call hello_cloud_scheduler --data='{}'
+```
+
 ## Run
 
 set cron schedule
 
 ```
-gcloud scheduler jobs create pubsub hello_cloud_scheduler \
+gcloud scheduler jobs create pubsub hello_cloud_scheduler_cron \
   --schedule "*/5 * * * *" \
   --topic hello_cloud_scheduler \
   --message-body "Wiwi"
 ```
 
+list scheduler resources
+```
+$ gcloud scheduler jobs list
+ID                          LOCATION     SCHEDULE (TZ)          TARGET_TYPE  STATE
+hello_cloud_scheduler_cron  us-central1  */5 * * * * (Etc/UTC)  Pub/Sub      ENABLED
+```
+
+describe scheduler resource
+```
+gcloud scheduler jobs describe hello_cloud_scheduler_cron
+```
+
 get logs
 
 ```
-gcloud functions logs read hello_google_cloud_function_hello_cloud_scheduler --limit 50
+gcloud functions logs read hello_cloud_scheduler --limit 50
 ```
 
-get Pub/Sub messages
+## Clean up
 
+pause job
 ```
-gcloud pubsub subscriptions pull cron-sub --limit 5
+$ gcloud scheduler jobs pause hello_cloud_scheduler_cron
+Job has been paused.
 ```
